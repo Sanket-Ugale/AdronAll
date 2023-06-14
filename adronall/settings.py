@@ -31,6 +31,8 @@ AUTH_USER_MODEL='home.User'
 # Application definition
 
 INSTALLED_APPS = [
+    # "channels",
+    'daphne',
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -41,7 +43,12 @@ INSTALLED_APPS = [
     "api",
     "rest_framework",
     "rest_framework.authtoken",
-    "rest_framework_simplejwt"
+    "rest_framework_simplejwt",
+    'django_celery_results',
+    'django_celery_beat',
+   
+    
+    # 'kombu.transport.django'
 ]
 
 MIDDLEWARE = [
@@ -73,8 +80,9 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = "adronall.wsgi.application"
-
+# WSGI_APPLICATION = "adronall.wsgi.application"
+# SETTINGS FOR DJANGO CHANNELS
+ASGI_APPLICATION = "adronall.asgi.application"
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
@@ -128,6 +136,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = "static/"
+STATICFILES_DIRS = [
+    BASE_DIR,"static"
+]
+
+MEDIA_ROOT=BASE_DIR/"media"
+MEDIA_URL="/media/"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
@@ -140,6 +154,12 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ]
+}
+# To close preview of api's
+REST_FRAMEWORK = {
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer',
+    )
 }
 
 from datetime import timedelta
@@ -189,3 +209,30 @@ EMAIL_PORT = 587
 EMAIL_HOST_USER = ''
 EMAIL_HOST_PASSWORD = ''
 EMAIL_USE_TLS = True
+
+
+# Celery Settings
+CELERY_BROKER_URL= 'redis://127.0.0.1:6379'
+CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_RESULT_SERIALIZER ='json'
+CELERY_TASK_SELERLIZER = 'json'
+CELERY_TIMEZONE='Asia/Kolkata'
+# to store celery execution data in database
+CELERY_RESULT_BACKEND = 'django-db'
+
+# celery beat
+CELERY_BEAT_SCHEDULER='django_celery_beat.schedulers:DatabaseScheduler'
+
+
+# SETTINGS FOR DJANGO CHANNELS
+
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.adronall.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("localhost", 6379)],
+        },
+    },
+}
+
