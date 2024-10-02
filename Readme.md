@@ -30,16 +30,16 @@ Adronall is a fully designed and developed e-commerce platform that provides a s
 - Redis
 - Flutter
 
-### Installation
+### Installation (Backend)
 
 1. Clone the repository:
    ```bash
    git clone https://github.com/Sanket-Ugale/adronall.git
 
-   <!-- For backend -->
+   # For backend
    cd adronall/Backend
 
-   <!-- For backend -->
+   # For app
    cd adronall/AdronAll-App
 
 2. Set up a virtual environment:
@@ -58,3 +58,18 @@ Adronall is a fully designed and developed e-commerce platform that provides a s
 8. Start the Django development server:
     ```bash
     python manage.py runserver
+
+### Installation (App)
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/Sanket-Ugale/adronall.git
+
+   cd adronall/AdronAll-App
+
+2. Install dependencies
+    ```bash
+    flutter pub get
+3. Run Flutter App
+    ```bash
+    flutter run
