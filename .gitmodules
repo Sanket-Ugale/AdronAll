@@ -1,0 +1,3 @@
+[submodule "AdronAll-App"]
+	path = AdronAll-App
+	url = https://github.com/Sanket-Ugale/AdronAll-App.git
